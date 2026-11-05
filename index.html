@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HabitBloom — Grow a little every day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <a class="brand" href="#"><span class="brand-mark">✿</span><span>habit<span class="brand-light">bloom</span></span></a>
+  <div class="side-label">WORKSPACE</div>
+  <button class="nav active" data-view="today"><span>◷</span> Today <span class="nav-count" id="navCount">0</span></button>
+  <button class="nav" data-view="insights"><span>▥</span> Insights</button>
+  <button class="nav" data-view="all"><span>☷</span> All habits</button>
+  <div class="side-bottom"><div class="mini-card"><div class="spark">✦</div><b>Small steps.<br>Big changes.</b><p>Consistency is your superpower.</p><div class="mini-progress"><i></i></div></div>
+  <div class="profile"><div class="avatar">B</div><div><b>My little journey</b><small>Personal space</small></div><button id="themeBtn" title="Toggle theme">☼</button></div></div>
+</aside>
+<main class="main">
+<header class="topbar"><div><div class="eyebrow" id="dateLabel">YOUR DAILY SPACE</div><h1 id="pageTitle">Today <span class="wave">✦</span></h1></div><div class="top-actions"><span class="streak-pill">🔥 <b id="streak">0</b> day streak</span><button class="icon-btn" id="settingsBtn" title="Settings">⚙</button><div class="avatar small">B</div></div></header>
+<section id="todayView">
+<div class="welcome"><div><h2>A fresh day to <em>grow.</em></h2><p>Every tiny action is a vote for the person you want to become.</p></div><div class="sun-art">☀</div></div>
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-top"><span>Today's progress</span><span class="stat-icon green">↗</span></div><div class="stat-number"><span id="progressNum">0</span><small>%</small></div><div class="progress-track"><i id="progressBar"></i></div><p id="progressText">Your day is just getting started</p></div>
+<div class="stat-card"><div class="stat-top"><span>Habits completed</span><span class="stat-icon lilac">✓</span></div><div class="stat-number"><span id="completedNum">0</span><small class="muted"> / <span id="totalNum">0</span></small></div><div class="stat-foot"><span class="dot green-dot"></span> Keep your momentum going</div></div>
+<div class="stat-card quote-card"><div class="quote-mark">“</div><p id="quote">You don't have to be perfect. Just keep showing up.</p><small>DAILY REMINDER</small></div>
+</div>
+<div class="section-head"><div><h3>Your daily habits <span class="tiny-flower">✿</span></h3><p>Show up for yourself, one habit at a time.</p></div><button class="primary-btn" id="addBtn">＋ Add habit</button></div>
+<div class="habits-list" id="habitsList"></div>
+<div class="empty-state" id="emptyState"><div class="empty-emoji">🌱</div><h3>Let's plant your first habit</h3><p>Start with something small. A little progress goes a long way.</p><button class="primary-btn" id="emptyAdd">＋ Create a habit</button></div>
+<div class="bottom-note"><span>✦</span> Remember: progress, not perfection.</div>
+</section>
+<section id="insightsView" class="hidden"><div class="section-head"><div><h3>Your growth, in bloom</h3><p>Little wins add up. Here's how you've been doing.</p></div></div><div class="stats-grid"><div class="stat-card"><div class="stat-top"><span>Current streak</span><span class="stat-icon green">🔥</span></div><div class="stat-number"><span id="insightStreak">0</span><small> days</small></div><p>Keep the rhythm alive</p></div><div class="stat-card"><div class="stat-top"><span>Completions this week</span><span class="stat-icon lilac">✓</span></div><div class="stat-number"><span id="weekCount">0</span></div><p>One day at a time</p></div><div class="stat-card"><div class="stat-top"><span>Total habits</span><span class="stat-icon peach">✿</span></div><div class="stat-number"><span id="insightTotal">0</span></div><p>Your routines in progress</p></div></div><div class="chart-card"><h3>Weekly consistency</h3><p>Your completed habits over the last 7 days</p><canvas id="weekChart"></canvas></div></section>
+<section id="allView" class="hidden"><div class="section-head"><div><h3>All your habits</h3><p>Every routine you're nurturing.</p></div><button class="primary-btn" id="allAdd">＋ Add habit</button></div><div class="habits-list" id="allHabitsList"></div></section>
+<footer>Made with care <span>✿</span> Your progress is yours to grow.</footer>
+</main></div>
+<div class="modal-backdrop hidden" id="modal"><div class="modal"><button class="close" id="closeModal">×</button><div class="modal-flower">✿</div><h2 id="modalTitle">Plant a new habit</h2><p class="modal-sub">Make it small enough to show up for.</p><form id="habitForm"><label>Habit name<input id="habitName" placeholder="e.g. Read for 10 minutes" maxlength="70" required></label><label>Choose a little icon<div class="emoji-options" id="emojiOptions"><button type="button" class="emoji selected">📚</button><button type="button" class="emoji">💧</button><button type="button" class="emoji">🧘</button><button type="button" class="emoji">🏃</button><button type="button" class="emoji">✍️</button><button type="button" class="emoji">🌿</button><button type="button" class="emoji">🎯</button><button type="button" class="emoji">💤</button></div></label><label>Category<select id="habitCategory"><option>Wellness</option><option>Learning</option><option>Fitness</option><option>Mindfulness</option><option>Personal</option></select></label><button class="primary-btn submit-btn" type="submit">Let's grow ✿</button></form></div></div>
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body></html>
